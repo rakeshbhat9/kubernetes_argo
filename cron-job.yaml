@@ -1,0 +1,16 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "0 1/1 * * *" 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: rakeshbhat9/digitalocean
+            args:
+            - app/scripts/test_2.py
+          restartPolicy: OnFailure

@@ -1,0 +1,2 @@
+kubectl apply -f streamlit.yaml
+kubectl expose deployment streamlit --type=LoadBalancer --name=streamlit-service
