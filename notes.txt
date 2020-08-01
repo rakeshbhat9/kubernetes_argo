@@ -1,2 +1,7 @@
-kubectl apply -f streamlit.yaml
-kubectl expose deployment streamlit --type=LoadBalancer --name=streamlit-service
+01.08:
+1. Streamlit yaml now has both deployment and svc. This should work out of the box on DO K8s cluster
+2. To get it running on minikube - 
+    a. Apply yaml 
+    b. run minikube tunnel in a seperate shell which should show external ip on loadbalancer.
+    c. run minikube service <name of service> --url -n <namespace>
+    d. This is now taking me to Streamlit app, but geting failure from the website it's trying to reach. Might be due to pod debugging.
