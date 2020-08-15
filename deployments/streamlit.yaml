@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: streamlit
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: streamlit
@@ -13,14 +13,27 @@ spec:
         app: streamlit
     spec:
       containers:
-      - name: streamlit-cntnr
-        image: rakeshbhat9/streamlit_docker
-        resources:
-          requests:
-            memory: "0.2Gi"
-            cpu: "0.2"
-          limits:
-            memory: "0.4Gi"
-            cpu: "0.4"
-        ports:
-        - containerPort: 8501        
+        - name: streamlit-cntnr
+          image: rakeshbhat9/streamlit_docker
+          resources:
+            requests:
+              memory: "0.2Gi"
+              cpu: "0.2"
+            limits:
+              memory: "0.4Gi"
+              cpu: "0.4"
+          ports:
+            - containerPort: 8501
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: streamlit-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: streamlit
+  ports:
+  - port: 8501
+    targetPort: 8501
