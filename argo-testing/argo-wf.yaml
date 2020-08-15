@@ -1,20 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
-kind: CronWorkflow
+kind: Workflow
 metadata:
-  name: hello-world
+  generateName: loops-
 spec:
-  schedule: "* * * * *"
-  timezone: "America/Los_Angeles"   # Default to local machine timezone
-  startingDeadlineSeconds: 0
-  concurrencyPolicy: "Replace"      # Default to "Allow"
-  successfulJobsHistoryLimit: 4     # Default 3
-  failedJobsHistoryLimit: 4         # Default 1
-  suspend: false                    # Set to "true" to suspend scheduling
-  workflowSpec:
-    entrypoint: whalesay
-    templates:
-      - name: whalesay
-        container:
-          image: docker/whalesay:latest
-          command: [cowsay]
-          args: ["🕓 hello world"]
+  entrypoint: loop-example
+  templates:
+  - name: loop-example
+    steps:
+    - - name: print-message
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            value: "{{item}}"
+        withItems:              # invoke whalesay once for each item in parallel
+        - hello world           # item 1
+        - goodbye world         # item 2
+
+  - name: whalesay
+    inputs:
+      parameters:
+      - name: message
+    container:
+      image: docker/whalesay:latest
+      command: [cowsay]
+      args: ["{{inputs.parameters.message}}"]
