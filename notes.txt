@@ -1,7 +1,7 @@
 01.08:
-1. Streamlit yaml now has both deployment and svc. This should work out of the box on DO K8s cluster
-2. To get it running on minikube - 
-    a. Apply yaml 
-    b. run minikube tunnel in a seperate shell which should show external ip on loadbalancer.
-    c. run minikube service <name of service> --url -n <namespace>
-    d. This is now taking me to Streamlit app, but geting failure from the website it's trying to reach. Might be due to pod debugging.
+    1. Streamlit yaml now has both deployment and svc. This should work out of the box on DO K8s cluster
+
+15/08:
+    1. Argo CD one click app in DO Market place doesn't include WF. To get Argo workflow, follow below.
+        a. https://github.com/argoproj/argo/blob/master/docs/quick-start.md
+        b. https://github.com/argoproj/argo/blob/master/docs/argo-server.md#access-the-argo-workflows-ui - kubectl port-forward option
