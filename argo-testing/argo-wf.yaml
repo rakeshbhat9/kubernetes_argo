@@ -1,27 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Workflow
+kind: Workflow                  # new type of k8s spec
 metadata:
-  generateName: loops-
+  generateName: hello-world-    # name of the workflow spec
 spec:
-  entrypoint: loop-example
+  entrypoint: whalesay          # invoke the whalesay template
   templates:
-  - name: loop-example
-    steps:
-    - - name: print-message
-        template: whalesay
-        arguments:
-          parameters:
-          - name: message
-            value: "{{item}}"
-        withItems:              # invoke whalesay once for each item in parallel
-        - hello world           # item 1
-        - goodbye world         # item 2
-
-  - name: whalesay
-    inputs:
-      parameters:
-      - name: message
+  - name: whalesay              # name of the template
     container:
-      image: docker/whalesay:latest
+      image: docker/whalesay
       command: [cowsay]
-      args: ["{{inputs.parameters.message}}"]
+      args: ["hello world"]
+      resources:                # limit the resources
+        limits:
+          memory: 32Mi
+          cpu: 100m
